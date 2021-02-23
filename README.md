@@ -4,6 +4,14 @@ Rust implementation of https://github.com/egoist/doko
 
 [Download](https://github.com/fengkx/doko-rs/releases)
 
+## Install from AUR
+
+You can install doko-rs from [aur](https://aur.archlinux.org/packages/doko-rs/)
+
+```sh
+yay -S doko-rs
+```
+
 # Why
 
 For Rust learning and pratices and more custom options like image tag.
@@ -19,7 +27,7 @@ doko v0.1
 A docker-based development dependency manager
 
 USAGE:
-    doko-rs [SUBCOMMAND]
+    doko [SUBCOMMAND]
 
 FLAGS:
     -h, --help       Prints help information
@@ -36,7 +44,7 @@ doko-rs-enable
 enable service
 
 USAGE:
-    doko-rs enable [SUBCOMMAND]
+    doko enable [SUBCOMMAND]
 
 FLAGS:
     -h, --help    Prints help information
