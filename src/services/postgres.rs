@@ -14,10 +14,7 @@ pub fn enable(args: &ArgMatches) -> Result<ExitStatus, DockerRunErr> {
     let mut f = File::open(get_lock_file_path("postgres"))
         .unwrap_or_else(|_| lock_image_tag("postgres", tag));
     let mut old_tag = String::new();
-    if let Err(err) = f.read_to_string(&mut old_tag) {
-        eprintln!("{}", err);
-        return Err(DockerRunErr::RunErr);
-    }
+    f.read_to_string(&mut old_tag)?;
     let old_tag = old_tag;
     if args.is_present("force") || old_tag == tag {
         match docker::run(Options {

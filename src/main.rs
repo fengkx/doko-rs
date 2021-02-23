@@ -85,6 +85,9 @@ fn main() {
                         eprintln!("postgres tag is different from the old one, You should clean the volumes first");
                         eprintln!("use --force to override the old image tag")
                     }
+                    Err(DockerRunErr::IoErr(err)) => {
+                        eprintln!("{}", err);
+                    }
                     Err(DockerRunErr::RunErr) => {}
                 };
             }
