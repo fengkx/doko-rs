@@ -2,6 +2,8 @@
 
 Rust implementation of https://github.com/egoist/doko
 
+[Download](https://github.com/fengkx/doko-rs/releases)
+
 # Why
 
 For Rust learning and pratices and more custom options like image tag.
