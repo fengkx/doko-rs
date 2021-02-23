@@ -49,7 +49,7 @@ pub fn run(opt: Options) -> io::Result<ExitStatus> {
     let mut command = Command::new("docker");
     command.args(&args);
     if let Some(port) = &opt.port {
-        let port = if port.contains(":") {
+        let port = if port.contains(':') {
             String::from(port)
         } else {
             format!("{0}:{0}", port)
