@@ -1,6 +1,8 @@
 use clap::{App, AppSettings, Arg, SubCommand};
+use errors::DockerRunErr;
 
 pub mod docker;
+pub mod errors;
 mod services;
 
 fn main() {
@@ -17,6 +19,10 @@ fn main() {
         .short("v")
         .long("volume")
         .help("volume path on host");
+    let force_arg = Arg::with_name("force")
+        .long("force")
+        .help("force to run ignoring old image_tag")
+        .takes_value(false);
     let matches = App::new("doko")
         .version("v0.1")
         .about("A docker-based development dependency manager")
@@ -33,7 +39,8 @@ fn main() {
                         .about("PostgreSQL docker service")
                         .arg(image_tag_arg.clone().default_value("12-alpine"))
                         .arg(port_arg.clone().default_value("5432"))
-                        .arg(volume_arg.clone().default_value("postgres_data")),
+                        .arg(volume_arg.clone().default_value("postgres_data"))
+                        .arg(force_arg.clone()),
                 )
                 .subcommand(
                     SubCommand::with_name("mysql")
@@ -66,11 +73,20 @@ fn main() {
     match matches.subcommand() {
         ("enable", Some(scm)) => match scm.subcommand() {
             ("postgres", Some(sscm)) => {
-                services::postgres::enable(sscm).unwrap();
-                println!(
-                    "PostgreSQL is listening on port {}",
-                    sscm.value_of("port").unwrap()
-                );
+                match services::postgres::enable(sscm) {
+                    Ok(_) => {
+                        println!(
+                            "PostgreSQL is listening on port {}",
+                            sscm.value_of("port").unwrap()
+                        );
+                        services::lock_image_tag("postgres", sscm.value_of("image_tag").unwrap());
+                    }
+                    Err(DockerRunErr::VersionConflict) => {
+                        eprintln!("postgres tag is different from the old one, You should clean the volumes first");
+                        eprintln!("use --force to override the old image tag")
+                    }
+                    Err(DockerRunErr::RunErr) => {}
+                };
             }
             ("mysql", Some(sscm)) => {
                 services::mysql::enable(sscm).unwrap();

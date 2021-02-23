@@ -1,5 +1,5 @@
 [package]
-name = "doko-rs"
+name = "doko"
 version = "0.1.0"
 authors = ["fengkx <liangkx8237@gmail.com>"]
 edition = "2018"
@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 clap = "2.33"
+dirs = "3.0.1"
