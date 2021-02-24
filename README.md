@@ -22,6 +22,10 @@ This is my first rust project so it might contain some bad code, please raise an
 
 In most case it is the same as [doko](https://github.com/egoist/doko).
 
+## Shell Completion
+
+Add `eval "$(doko completion --shell bash)"` to your shell config file to enable shell completion.
+
 ```plain
 doko v0.1
 A docker-based development dependency manager

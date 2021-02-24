@@ -6,6 +6,7 @@ use std::{
 pub mod options {
 
     #[derive(Debug)]
+    #[allow(dead_code)]
     pub enum Env {
         Kv { key: String, value: String },
         Str(String),
